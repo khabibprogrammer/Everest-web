@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Product Banner</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #fff;
+            color: #171717;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        .banner-wrapper {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 14px;
+        }
+
+        /* =====================
+       MAIN SLIDER
+    ====================== */
+
+        .main-banner {
+            position: relative;
+            min-height: 300px;
+            background: #f1f3f4;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            min-height: 300px;
+            position: relative;
+            padding: 70px 34px 45px;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            width: 55%;
+        }
+
+        .small-title {
+            color: #1684d4;
+            font-size: 9px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-transform: uppercase;
+        }
+
+        .small-title::before {
+            content: "";
+            width: 15px;
+            height: 2px;
+            background: #1684d4;
+        }
+
+        .slide h1 {
+            font-size: 29px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .slide p {
+            color: #555;
+            font-size: 10px;
+            line-height: 1.5;
+            margin-bottom: 14px;
+            max-width: 220px;
+        }
+
+        .shop-btn {
+            border: none;
+            background: #ff762d;
+            color: white;
+            padding: 10px 18px;
+            font-size: 9px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .shop-btn:hover {
+            background: #e95e19;
+            transform: translateY(-2px);
+        }
+
+        .shop-btn span {
+            margin-left: 8px;
+            font-size: 14px;
+        }
+
+        .product-image {
+            position: absolute;
+            width: 45%;
+            max-width: 210px;
+            right: 30px;
+            top: 45px;
+            object-fit: contain;
+        }
+
+        .price-circle {
+            position: absolute;
+            right: 28px;
+            top: 30px;
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            background: #279de8;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            z-index: 3;
+            border: 2px solid white;
+        }
+
+        /* Dots */
+
+        .dots {
+            position: absolute;
+            left: 32px;
+            bottom: 28px;
+            display: flex;
+            gap: 5px;
+            z-index: 5;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: #b9c1c5;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: #222;
+        }
+
+        /* =====================
+       RIGHT BANNERS
+    ====================== */
+
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .small-banner {
+            position: relative;
+            flex: 1;
+            min-height: 143px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .google-banner {
+            background: #191d1f;
+            color: white;
+            padding: 25px 22px;
+        }
+
+        .summer {
+            color: #f2df00;
+            font-size: 8px;
+            margin-bottom: 7px;
+        }
+
+        .google-banner h2 {
+            font-size: 15px;
+            line-height: 1.2;
+            font-weight: 500;
+            width: 120px;
+            margin-bottom: 10px;
+        }
+
+        .discount {
+            position: absolute;
+            top: 14px;
+            right: 12px;
+            background: #ffe93b;
+            color: #111;
+            padding: 6px 10px;
+            font-size: 8px;
+        }
+
+        .google-image {
+            position: absolute;
+            right: -5px;
+            bottom: 0;
+            height: 115px;
+            width: 125px;
+            object-fit: contain;
+        }
+
+        .google-banner .shop-btn {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Xiaomi */
+
+        .xiaomi-banner {
+            background: #f1f3f4;
+            padding: 25px 15px;
+        }
+
+        .earbuds-image {
+            position: absolute;
+            left: 18px;
+            top: 25px;
+            width: 100px;
+            height: 90px;
+            object-fit: contain;
+        }
+
+        .xiaomi-content {
+            position: absolute;
+            right: 18px;
+            top: 25px;
+        }
+
+        .xiaomi-content h2 {
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.2;
+            width: 100px;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            color: #008fe5;
+            font-size: 10px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* =====================
+       RESPONSIVE
+    ====================== */
+
+        @media (max-width: 650px) {
+            .container {
+                margin-top: 15px;
+            }
+
+            .banner-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .right-column {
+                flex-direction: row;
+            }
+
+            .small-banner {
+                min-height: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide {
+                padding: 40px 20px;
+            }
+
+            .slide-content {
+                width: 100%;
+            }
+
+            .slide h1 {
+                font-size: 24px;
+            }
+
+            .product-image {
+                opacity: 0.3;
+                right: 5px;
+            }
+
+            .right-column {
+                flex-direction: column;
+            }
+
+            .small-banner {
+                min-height: 160px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="banner-wrapper">
+
+            <!-- ASOSIY SLIDER -->
+            <div class="main-banner">
+
+                <!-- SLIDE 1 -->
+                <div class="slide active">
+
+                    <div class="slide-content">
+
+                        <div class="small-title">
+                            The best place to play
+                        </div>
+
+                        <h1>Xbox Consoles</h1>
+
+                        <p>
+                            Save up to 50% on select Xbox games.
+                            Get 3 months of PC Game Pass for ₹2 USD.
+                        </p>
+
+                        <button class="shop-btn">
+                            SHOP NOW <span>→</span>
+                        </button>
+
+                    </div>
+
+                    <!-- Xbox rasmi -->
+                    <img class="product-image"
+                        src="https://upload.wikimedia.org/wikipedia/commons/4/43/Xbox_One_console_set.png"
+                        alt="Xbox Console" />
+
+                    <div class="price-circle">
+                        ₹299
+                    </div>
+
+                </div>
+
+
+                <!-- SLIDE 2 -->
+                <div class="slide">
+
+                    <div class="slide-content">
+
+                        <div class="small-title">
+                            Next generation gaming
+                        </div>
+
+                        <h1>Gaming Console</h1>
+
+                        <p>
+                            Discover the latest gaming experience
+                            with powerful performance.
+                        </p>
+
+                        <button class="shop-btn">
+                            SHOP NOW <span>→</span>
+                        </button>
+
+                    </div>
+
+                    <img class="product-image"
+                        src="https://upload.wikimedia.org/wikipedia/commons/7/7a/PlayStation_5_and_DualSense_with_transparent_background.png"
+                        alt="Gaming Console" />
+
+                    <div class="price-circle">
+                        ₹499
+                    </div>
+
+                </div>
+
+
+                <!-- SLIDE 3 -->
+                <div class="slide">
+
+                    <div class="slide-content">
+
+                        <div class="small-title">
+                            Best gaming deals
+                        </div>
+
+                        <h1>PlayStation</h1>
+
+                        <p>
+                            Enjoy next-level gaming with
+                            immersive graphics and performance.
+                        </p>
+
+                        <button class="shop-btn">
+                            SHOP NOW <span>→</span>
+                        </button>
+
+                    </div>
+
+                    <img class="product-image"
+                        src="https://upload.wikimedia.org/wikipedia/commons/7/7a/PlayStation_5_and_DualSense_with_transparent_background.png"
+                        alt="PlayStation" />
+
+                    <div class="price-circle">
+                        ₹399
+                    </div>
+
+                </div>
+
+
+                <!-- SLIDER DOTS -->
+
+                <div class="dots">
+
+                    <div class="dot active" onclick="showSlide(0)"></div>
+
+                    <div class="dot" onclick="showSlide(1)"></div>
+
+                    <div class="dot" onclick="showSlide(2)"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT SIDE -->
+
+            <div class="right-column">
+
+                <!-- GOOGLE BANNER -->
+
+                <div class="small-banner google-banner">
+
+                    <div class="summer">
+                        SUMMER SALES
+                    </div>
+
+                    <h2>
+                        New Google
+                        Pixel 6 Pro
+                    </h2>
+
+                    <button class="shop-btn">
+                        SHOP NOW <span>→</span>
+                    </button>
+
+                    <div class="discount">
+                        29% OFF
+                    </div>
+
+                    <img class="google-image"
+                        src="https://upload.wikimedia.org/wikipedia/commons/7/73/Google_Pixel_6_Pro.png"
+                        alt="Google Pixel 6 Pro" />
+
+                </div>
+
+
+                <!-- XIAOMI BANNER -->
+
+                <div class="small-banner xiaomi-banner">
+
+                    <img class="earbuds-image"
+                        src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Xiaomi_AirDots_Pro_2.png"
+                        alt="Xiaomi Earbuds" />
+
+                    <div class="xiaomi-content">
+
+                        <h2>
+                            Xiaomi
+                            FlipBuds Pro
+                        </h2>
+
+                        <div class="price">
+                            ₹299 USD
+                        </div>
+
+                        <button class="shop-btn">
+                            SHOP NOW <span>→</span>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+
+
+    </script>
+
+</body>
+
+</html>

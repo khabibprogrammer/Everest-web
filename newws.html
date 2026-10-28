@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Onclick Misoli</title>
+</head>
+
+<body>
+
+    <!-- HTML ichida onclick ishlatish -->
+    <button onclick="salomBer()">Meni bosing</button>
+    <button id="maxsusTugma">addEventListener Tugmasi</button>
+
+    <script>
+        function salomBer() {
+            alert("Salom! Siz tugmani bosdingiz.");
+        }
+        const tugma = document.getElementById("maxsusTugma");
+
+        // 2. Unga 'click' hodisasini (event) qo'shamiz
+        tugma.addEventListener("click", function () {
+            console.log("Tugma bosildi!");
+            alert("Tabriklayman, addEventListener ishga tushdi!");
+        });
+    </script>
+
+    <h1 id="sarlavha">Oq rejimdasiz</h1>
+    <button id="rejim">Rejimni o'zgaritir</button>
+    
+
+</body>
+
+</html>
